@@ -7,7 +7,6 @@ export function HeroBanner() {
   ]
 
   const paymentMethods = [
-    { icon: "💳", text: "TARJETA" },
     { icon: "🏦", text: "TRANSFERENCIA" },
     { icon: "💵", text: "EFECTIVO" },
     { icon: "📱", text: "MERCADO PAGO" },
