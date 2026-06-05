@@ -17,7 +17,7 @@ export function ProductSection({ id, title, products }: ProductSectionProps) {
         <h2 className="mb-4 text-xl font-bold uppercase tracking-wide text-foreground">
           {title}
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -44,12 +44,12 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <div id={product.id} className="flex flex-col h-full group overflow-hidden rounded-xl border border-border/50 bg-card transition-all duration-200 hover:border-border scroll-mt-28">
       {currentImage && (
-        <div className="relative h-44 w-full overflow-hidden bg-transparent">
+        <div className="relative aspect-square w-full overflow-hidden bg-transparent">
           <Image
             src={currentImage}
             alt={product.name}
             fill
-            className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+            className="object-contain p-1 transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
           {images.length > 1 && (
@@ -74,11 +74,11 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
       )}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-2 sm:p-4 flex flex-col flex-grow">
         <div className="flex-grow mb-3">
           <div className="mb-3 flex items-start justify-between">
             <div className="flex-1">
-              <h3 className="text-base font-semibold text-foreground">
+              <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight">
                 {product.name}
               </h3>
               {product.subtitle && (
@@ -88,7 +88,7 @@ function ProductCard({ product }: { product: Product }) {
               )}
             </div>
             {product.badge && (
-              <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+              <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent border border-accent/20">
                 {product.badge}
               </span>
             )}
@@ -106,7 +106,7 @@ function ProductCard({ product }: { product: Product }) {
 
         <div className="flex items-end justify-between mt-auto">
           <div>
-            <span className="text-2xl font-bold text-foreground">
+            <span className="text-base sm:text-2xl font-bold text-foreground">
               {formatPrice(product.basePrice, product.currency)}
             </span>
             {product.priceTiers && product.priceTiers.length > 0 && (

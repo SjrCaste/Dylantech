@@ -49,7 +49,7 @@ export function ComboSection() {
                   )}
                 </div>
                 {combo.badge && (
-                  <span className="ml-2 inline-block whitespace-nowrap rounded-lg bg-primary/20 px-3 py-1 text-xs font-semibold text-primary">
+                  <span className="ml-2 inline-block whitespace-nowrap rounded-lg bg-accent/20 px-3 py-1 text-xs font-semibold text-accent border border-accent/20">
                     {combo.badge}
                   </span>
                 )}

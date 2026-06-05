@@ -28,7 +28,7 @@ const bestSellers = [
   },
   {
     id: "body-splash-vs",
-    image: "/products/body-splash-vs-replica.png",
+    image: "/products/body-splash-vs-alt.png",
     name: "Body Splash VS",
     price: "14",
     currency: "USD",
@@ -64,7 +64,7 @@ export function BestSellers() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-4 flex items-center gap-2">
           <span className="text-lg">🔥</span>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-accent">
             Más Vendidos
           </h2>
         </div>
@@ -76,7 +76,7 @@ export function BestSellers() {
               href={`#${item.id}`}
               className={`flex min-w-[140px] flex-col items-center gap-2 rounded-xl border border-border/50 bg-card p-4 transition-all duration-200 ${
                 hoveredId === item.id 
-                  ? "border-primary/50 bg-primary/5" 
+                  ? "border-accent/50 bg-accent/5" 
                   : "hover:border-border"
               }`}
               onMouseEnter={() => setHoveredId(item.id)}
@@ -87,7 +87,7 @@ export function BestSellers() {
                   src={item.image}
                   alt={item.name}
                   fill
-                  className="object-contain p-1"
+                  className="object-contain p-0.5"
                   sizes="64px"
                 />
               </div>
@@ -95,8 +95,8 @@ export function BestSellers() {
                 {item.name}
               </span>
               <div className="flex items-baseline gap-0.5">
-                <span className="text-xs text-muted-foreground">desde</span>
-                <span className="ml-1 text-lg font-bold text-primary">
+                <span className="text-xs text-muted-foreground">hasta</span>
+                <span className="ml-1 text-lg font-bold text-accent">
                   {item.price}
                 </span>
                 <span className="text-xs text-muted-foreground">

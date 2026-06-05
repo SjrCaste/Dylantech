@@ -20,7 +20,7 @@ export function HeroBanner() {
       <div className="relative mx-auto max-w-7xl">
         <div className="mb-6 text-center">
           <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            CATÁLOGO 2026
+            CATÁLOGO <span className="text-accent">2026</span>
           </h1>
           <p className="text-lg text-muted-foreground">
             LISTA MAYORISTA

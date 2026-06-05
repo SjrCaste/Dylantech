@@ -16,7 +16,7 @@ export function Header() {
             DYLAN TECH
           </span>
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            2026
+            <span className="text-accent">2026</span>
           </span>
         </Link>
         <Link

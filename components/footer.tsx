@@ -48,7 +48,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 text-center text-xs text-muted-foreground/60">
-          © 2026 @dylan_fernaa · Lista Mayorista
+          © <span className="text-accent">2026</span> @dylan_fernaa · Lista Mayorista
         </div>
       </div>
     </footer>

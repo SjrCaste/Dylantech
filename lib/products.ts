@@ -108,7 +108,7 @@ export const products = {
       basePrice: 240000,
       currency: "ARS" as const,
       minQuantity: 1,
-      image: "/products/smart-tv-32.png",
+      image: "/products/smart-tv-32.jpg",
     },
     {
       id: "smart-tv-43",
@@ -117,7 +117,7 @@ export const products = {
       basePrice: 380000,
       currency: "ARS" as const,
       minQuantity: 1,
-      image: "/products/smart-tv-43.png",
+      image: "/products/smart-tv-43.jpg",
     },
     {
       id: "camaras-foco-360",
@@ -127,7 +127,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 5,
       badge: "LIQUIDACION",
-      image: "/products/camara-foco-360.png",
+      image: "/products/camara-foco-360-new.jpg",
       priceTiers: [
         { quantity: 5, price: 13, currency: "USD" as const },
       ],
@@ -137,7 +137,7 @@ export const products = {
     {
       id: "cable-apple-cc",
       name: "Cable Apple 1m",
-      subtitle: "RÉPLICA · C–C",
+      subtitle: "C–C",
       basePrice: 5,
       currency: "USD" as const,
       minQuantity: 5,
@@ -146,7 +146,7 @@ export const products = {
     {
       id: "cable-apple-cl",
       name: "Cable Apple 1m",
-      subtitle: "RÉPLICA · C–L",
+      subtitle: "C–L",
       basePrice: 5,
       currency: "USD" as const,
       minQuantity: 5,
@@ -155,7 +155,7 @@ export const products = {
     {
       id: "cubo-20w",
       name: "Cubo 20W Apple",
-      subtitle: "RÉPLICA",
+      subtitle: "EXCELENTE CALIDAD",
       basePrice: 2,
       currency: "USD" as const,
       minQuantity: 5,
@@ -213,7 +213,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "REINGRESO",
-      image: "/products/body-splash-vs-replica.png",
+      image: "/products/body-splash-vs-alt.png",
       priceTiers: [
         { quantity: 1, price: 20000, currency: "ARS" as const },
         { quantity: 5, price: 15000, currency: "ARS" as const },
@@ -275,7 +275,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 5,
       badge: "NUEVO INGRESO",
-      image: "/products/cremas-karssell.png",
+      image: "/products/cremas-karssell-new.png",
       priceTiers: [
         { quantity: 5, price: 11.5, currency: "USD" as const },
         { quantity: 10, price: 10.5, currency: "USD" as const },
@@ -305,13 +305,13 @@ export const products = {
       ],
     },
     {
-      id: "shorts-nba",
-      name: "Shorts NBA",
-      subtitle: "VARIOS EQUIPOS",
+      id: "shorts-jordan",
+      name: "Shorts Jordan",
+      subtitle: "VARIOS COLORES",
       basePrice: 20,
       currency: "USD" as const,
       minQuantity: 5,
-      image: "/products/shorts-nba.png",
+      image: "/products/shorts-jordan.jpg",
     },
   ],
   home: [
@@ -323,7 +323,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 5,
       badge: "NUEVO INGRESO",
-      image: "/products/termo-messi.png",
+      image: "/products/termo-messi-new.jpg",
       priceTiers: [
         { quantity: 5, price: 15.5, currency: "USD" as const },
         { quantity: 10, price: 13.5, currency: "USD" as const },
