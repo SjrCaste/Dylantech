@@ -32,10 +32,19 @@ function ProductCard({ product }: { product: Product }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [showWaOptions, setShowWaOptions] = useState(false)
 
-  const generarMensajeWhatsApp = (tipo: 'unidad' | 'mayorista') => {
-    const texto = `Hola Dylan! Me interesa comprar *${product.name}* ${tipo === 'unidad' ? 'por unidad' : 'al por mayor'}. ¿Me pasás más info?`
+  const generarMensajeWhatsApp = (cantidad: string) => {
+    const texto = `Hola Dylan! Me interesa comprar *${product.name}* (${cantidad}). ¿Me pasás más info?`
     return `https://wa.me/5491122813943?text=${encodeURIComponent(texto)}`
   }
+
+  const quantityOptions = product.priceTiers ? [
+    { label: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`, highlight: product.minQuantity === 1 },
+    ...product.priceTiers.filter(t => t.quantity !== product.minQuantity).map(t => ({
+      label: `x${t.quantity} Unidades`, highlight: false
+    }))
+  ] : [
+    { label: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`, highlight: true }
+  ];
 
   const formatPrice = (price: number, currency: string) => {
     if (currency === "ARS") {
@@ -190,23 +199,22 @@ function ProductCard({ product }: { product: Product }) {
               Comprar
             </button>
           ) : (
-            <div className="flex gap-2">
-              <a
-                href={generarMensajeWhatsApp('unidad')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center rounded-lg bg-secondary px-2 py-2 text-[11px] font-bold text-foreground transition-all hover:bg-secondary/80"
-              >
-                x1 Unidad
-              </a>
-              <a
-                href={generarMensajeWhatsApp('mayorista')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center rounded-lg bg-primary px-2 py-2 text-[11px] font-bold text-primary-foreground transition-all hover:bg-primary/90"
-              >
-                Mayorista
-              </a>
+            <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+              {quantityOptions.map((opt, idx) => (
+                <a
+                  key={idx}
+                  href={generarMensajeWhatsApp(opt.label)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center justify-center rounded-lg px-1 py-2 text-[10px] sm:text-[11px] font-bold transition-all ${
+                    opt.highlight
+                      ? "bg-secondary text-foreground hover:bg-secondary/80"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  }`}
+                >
+                  {opt.label}
+                </a>
+              ))}
             </div>
           )}
         </div>
