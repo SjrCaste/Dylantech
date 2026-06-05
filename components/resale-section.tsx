@@ -50,27 +50,53 @@ interface ResaleProduct {
 function ResaleCard({ product }: { product: ResaleProduct }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const quantityOptions = product.priceTiers ? [
-    { label: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`, highlight: product.minQuantity === 1 },
-    ...product.priceTiers.filter(t => t.quantity !== product.minQuantity).map(t => ({
-      label: `x${t.quantity} Unidades`, highlight: false
-    }))
-  ] : [
-    { label: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`, highlight: true }
-  ];
-
-  const [selectedQuantity, setSelectedQuantity] = useState(quantityOptions[0].label)
-
-  const generarMensajeWhatsApp = (cantidad: string) => {
-    const texto = `Hola Dylan! Me interesa comprar *${product.name}* (${cantidad}). ¿Me pasás más info?`
-    return `https://wa.me/5491122813943?text=${encodeURIComponent(texto)}`
-  }
-
   const formatPrice = (price: number, currency: string) => {
     if (currency === "ARS") {
       return `$${price.toLocaleString("es-AR")}`
     }
     return `${price} USD`
+  }
+
+  const quantityOptions: { label: string; value: string }[] = [];
+  
+  if (product.priceTiers) {
+    const baseTier = product.priceTiers.find(t => t.quantity === product.minQuantity);
+    const basePriceStr = baseTier ? formatPrice(baseTier.price, baseTier.currency) : formatPrice(product.basePrice, product.currency);
+    
+    quantityOptions.push({
+      label: product.minQuantity === 1 ? `x1 Unidad - ${basePriceStr}` : `x${product.minQuantity} Unidades - ${basePriceStr} c/u`,
+      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`
+    });
+
+    const otherTiers = product.priceTiers.filter(t => t.quantity !== product.minQuantity);
+    otherTiers.forEach(t => {
+      quantityOptions.push({
+        label: `x${t.quantity} Unidades - ${formatPrice(t.price, t.currency)} c/u`,
+        value: `x${t.quantity} Unidades`
+      });
+    });
+  } else {
+    quantityOptions.push({
+      label: product.minQuantity === 1 ? `x1 Unidad - ${formatPrice(product.basePrice, product.currency)}` : `x${product.minQuantity} Unidades - ${formatPrice(product.basePrice, product.currency)} c/u`,
+      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`
+    });
+  }
+
+  quantityOptions.push({
+    label: "Por más cantidad consultar aquí 💬",
+    value: "MAS_CANTIDAD"
+  });
+
+  const [selectedQuantity, setSelectedQuantity] = useState(quantityOptions[0].value)
+
+  const generarMensajeWhatsApp = (valorSeleccionado: string) => {
+    let texto = "";
+    if (valorSeleccionado === "MAS_CANTIDAD") {
+      texto = `Hola Dylan, quiero consultar por más cantidad de *${product.name}*, me podrías dar info?`;
+    } else {
+      texto = `Hola Dylan! Me interesa comprar *${product.name}* (${valorSeleccionado}). ¿Me pasás más info?`;
+    }
+    return `https://wa.me/5491122813943?text=${encodeURIComponent(texto)}`
   }
 
   return (
@@ -207,8 +233,8 @@ function ResaleCard({ product }: { product: ResaleProduct }) {
                 className="w-full bg-secondary/50 border border-border/50 rounded-lg px-2 py-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary appearance-none cursor-pointer"
                 style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right .7rem top 50%', backgroundSize: '.65rem auto' }}
               >
-                {quantityOptions.map(opt => (
-                  <option key={opt.label} value={opt.label}>{opt.label}</option>
+                {quantityOptions.map((opt, i) => (
+                  <option key={i} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
             </div>
