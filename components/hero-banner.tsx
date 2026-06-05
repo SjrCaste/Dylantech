@@ -52,9 +52,9 @@ export function HeroBanner() {
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-2 text-center">
-          <span className="text-sm text-muted-foreground">Contacto Dylan Tech</span>
+          <span className="text-sm text-muted-foreground">Contacto Dylan Etchechuri</span>
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-foreground">@dylantech</span>
+            <span className="text-foreground">@dylan_fernaa</span>
           </div>
         </div>
       </div>

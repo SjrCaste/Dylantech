@@ -13,7 +13,7 @@ export function Header() {
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
           <span className="text-lg font-bold tracking-tight text-foreground">
-            DYLAN TECH
+            DYLAN ETCHECHURI
           </span>
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             <span className="text-accent">2026</span>
