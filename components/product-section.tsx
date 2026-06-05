@@ -118,6 +118,19 @@ function ProductCard({ product }: { product: Product }) {
               {product.hasWarranty}
             </div>
           )}
+
+          {product.features && product.features.length > 0 && (
+            <ul className="mb-4 space-y-1.5 border-t border-border/50 pt-3">
+              {product.features.map((feature, idx) => (
+                <li key={idx} className="flex items-start gap-1.5 text-[11px] sm:text-xs text-muted-foreground leading-tight">
+                  <svg className="h-3.5 w-3.5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="flex items-end justify-between mt-auto">

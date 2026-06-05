@@ -33,6 +33,7 @@ export interface Combo {
   }[]
   badge?: string
   image?: string
+  features?: string[]
 }
 
 export const products = {
@@ -45,6 +46,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "OFERTA",
+      features: ["Cancelación de ruido activa", "Audio espacial 3D", "Estuche con carga MagSafe"],
       image: "/products/airpods-pro-2.png",
       priceTiers: [
         { quantity: 1, price: 22000, currency: "ARS" as const },
@@ -53,7 +55,6 @@ export const products = {
         { quantity: 30, price: 7.5, currency: "USD" as const },
       ],
     },
-
     {
       id: "tcl-40-nxtpaper",
       name: "TCL 40 NXTPAPER",
@@ -61,9 +62,9 @@ export const products = {
       basePrice: 257000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Pantalla anti-reflejo tipo papel", "256GB almacenamiento inmenso", "Batería de larga duración"],
       image: "/products/tcl-40-nxtpaper.jpg",
     },
-
     {
       id: "moto-g06",
       name: "Moto G06",
@@ -72,9 +73,9 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       hasWarranty: "INCLUYE CARGADOR",
+      features: ["Pantalla 90Hz ultra fluida", "Cámara optimizada con IA", "Diseño súper delgado"],
       image: "/products/moto-g06.jpg",
     },
-
     {
       id: "smart-tv-32",
       name: "Smart TV 32\" Sierra",
@@ -82,6 +83,7 @@ export const products = {
       basePrice: 240000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Resolución HD brillante", "Apps Smart preinstaladas", "Sonido inmersivo envolvente"],
       image: "/products/smart-tv-32.jpg",
     },
     {
@@ -91,6 +93,7 @@ export const products = {
       basePrice: 380000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Resolución Full HD 1080p", "Diseño elegante sin bordes", "Procesador Smart ultra rápido"],
       image: "/products/smart-tv-43.jpg",
     },
     {
@@ -101,6 +104,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "LIQUIDACION",
+      features: ["Visión nocturna infrarroja", "Detección de movimiento", "Audio bidireccional (mic y parlante)"],
       image: "/products/camara-foco-360-new.jpg",
       priceTiers: [
         { quantity: 1, price: 23000, currency: "ARS" as const },
@@ -116,6 +120,7 @@ export const products = {
       basePrice: 3,
       currency: "USD" as const,
       minQuantity: 5,
+      features: ["Carga ultra rápida PD", "Material siliconado resistente", "Transferencia de datos alta velocidad"],
       image: "/products/cable-apple-cc.png",
     },
     {
@@ -125,6 +130,7 @@ export const products = {
       basePrice: 3,
       currency: "USD" as const,
       minQuantity: 5,
+      features: ["Carga rápida para iPhone", "Conectores reforzados", "Calidad de ensamblado premium"],
       image: "/products/cable-apple-cl.png",
     },
     {
@@ -134,6 +140,7 @@ export const products = {
       basePrice: 3.5,
       currency: "USD" as const,
       minQuantity: 5,
+      features: ["Carga de 0 a 50% en 30 minutos", "Protección contra sobrecargas", "Diseño compacto y portátil"],
       image: "/products/cubo-20w.png",
     },
     {
@@ -144,6 +151,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "MEJORAMOS PRECIO",
+      features: ["Kit completo listo para usar", "Carga ultra rápida 20W", "Alta durabilidad garantizada"],
       image: "/products/combo-cargador.png",
       priceTiers: [
         { quantity: 1, price: 20000, currency: "ARS" as const },
@@ -153,7 +161,6 @@ export const products = {
         { quantity: 80, price: 3.8, currency: "USD" as const },
       ],
     },
-
     {
       id: "fundas-silicon-case",
       name: "Fundas Silicon Case",
@@ -161,6 +168,7 @@ export const products = {
       basePrice: 10000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Interior afelpado de microfibra", "Tacto suave y antideslizante", "Protección 360° ante caídas"],
       image: "/products/fundas-silicon-case.png",
       priceTiers: [
         { quantity: 1, price: 10000, currency: "ARS" as const },
@@ -169,8 +177,6 @@ export const products = {
         { quantity: 50, price: 2900, currency: "ARS" as const },
       ],
     },
-
-
   ],
   perfumery: [
     {
@@ -181,6 +187,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "REINGRESO",
+      features: ["Aromas dulces y tropicales", "Larga duración en la piel", "Ideal para uso diario"],
       image: "/products/body-splash-vs-alt.png",
       priceTiers: [
         { quantity: 1, price: 20000, currency: "ARS" as const },
@@ -188,8 +195,6 @@ export const products = {
         { quantity: 15, price: 14000, currency: "ARS" as const },
       ],
     },
-
-
     {
       id: "cremas-karssell",
       name: "Cremas Karsell",
@@ -198,6 +203,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "NUEVO INGRESO",
+      features: ["Tratamiento profundo con colágeno", "Reparación intensiva de salón", "Apto para todo tipo de cabello"],
       image: "/products/cremas-karssell-new.png",
       priceTiers: [
         { quantity: 1, price: 25000, currency: "ARS" as const },
@@ -215,6 +221,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "mejor precio",
+      features: ["Calidad Premium G5 importada", "Tela antitranspirante y fresca", "Detalles bordados y escudos exactos"],
       image: "/products/camisetas-argentina.png",
       images: [
         "/products/camisetas-argentina.png",
@@ -235,6 +242,7 @@ export const products = {
       basePrice: 30000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Tela de secado súper rápido", "Ajuste cómodo y diseño deportivo", "Logo bordado de alta calidad"],
       image: "/products/shorts-jordan.jpg",
       priceTiers: [
         { quantity: 1, price: 30000, currency: "ARS" as const },
@@ -251,6 +259,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "NUEVO INGRESO",
+      features: ["Acero inoxidable doble pared al vacío", "Mantiene frío/calor por más de 24hs", "Edición exclusiva de colección"],
       image: "/products/termo-messi-new.jpg",
       priceTiers: [
         { quantity: 1, price: 29000, currency: "ARS" as const },
@@ -258,7 +267,6 @@ export const products = {
         { quantity: 10, price: 13.5, currency: "USD" as const },
       ],
     },
-
   ],
   audio: [
     {
@@ -269,6 +277,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "LIQUIDACION",
+      features: ["Sonido Pure Bass inmersivo", "Batería de extra larga duración", "Conexión Bluetooth sin cortes"],
       image: "/products/auriculares-jbl.png",
       priceTiers: [
         { quantity: 1, price: 22000, currency: "ARS" as const },
@@ -283,6 +292,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "🔥 NUEVO",
+      features: ["Audio de alta fidelidad superior", "Diseño premium súper ergonómico", "Aislamiento acústico avanzado"],
       image: "/products/airpods-max.png",
       priceTiers: [
         { quantity: 5, price: 15, currency: "USD" as const },
@@ -290,7 +300,6 @@ export const products = {
     },
   ],
   vapes: [
-
     {
       id: "torch-5g",
       name: "Torch 5G",
@@ -299,6 +308,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "REINGRESO",
+      features: ["Duración extrema y rendimiento 5G", "Sabor intenso, denso y puro", "Diseño robusto y recargable"],
       image: "/products/torch-5g.jpg",
       priceTiers: [
         { quantity: 1, price: 55000, currency: "ARS" as const },
@@ -314,6 +324,7 @@ export const products = {
       basePrice: 30000,
       currency: "ARS" as const,
       minQuantity: 1,
+      features: ["Completamente libre de mantenimiento", "Diseño ultra elegante y compacto", "Caladas constantes y súper suaves"],
       image: "/products/ignite-v400.png",
       priceTiers: [
         { quantity: 1, price: 30000, currency: "ARS" as const },
@@ -330,6 +341,7 @@ export const products = {
       currency: "ARS" as const,
       minQuantity: 1,
       badge: "BAJAMOS PRECIOS",
+      features: ["Sabor Sour & Ice fresco inigualable", "Listo para usar al instante", "Calidad de componentes garantizada"],
       image: "/products/elfbar-ice-king.jpg",
       priceTiers: [
         { quantity: 1, price: 29000, currency: "ARS" as const },
@@ -349,6 +361,7 @@ export const products = {
       currency: "USD" as const,
       minQuantity: 1,
       hasWarranty: "INCLUYE FUNDA + CARGADOR",
+      features: ["Condición de batería óptima verificada", "Equipos libres de fábrica", "Testeo completo de hardware superado"],
       image: "/products/iphone-13.png",
     },
   ],
