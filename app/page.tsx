@@ -8,7 +8,7 @@ import { CategoryNav } from "@/components/category-nav"
 import { ProductSection } from "@/components/product-section"
 import { ComboSection } from "@/components/combo-section"
 import { ResaleSection } from "@/components/resale-section"
-import { OrderGuide } from "@/components/order-guide"
+import { WholesaleSection } from "@/components/wholesale-section"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { products } from "@/lib/products"
@@ -17,7 +17,9 @@ export default function CatalogPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
   const categories = [
-    { id: "tech", label: "Tecnología", icon: "📱" },
+    { id: "resale", label: "iPhones", icon: "📱" },
+    { id: "wholesale", label: "Mayorista", icon: "📦" },
+    { id: "tech", label: "Tecnología", icon: "💻" },
     { id: "accessories", label: "Accesorios", icon: "🔌" },
     { id: "audio", label: "Audio", icon: "🎧" },
     { id: "perfumery", label: "Perfumería", icon: "🌸" },
@@ -48,6 +50,9 @@ export default function CatalogPage() {
         />
         
         <div className="space-y-8 pb-32">
+          <ResaleSection />
+          <WholesaleSection />
+          
           <ProductSection 
             id="tech"
             title="Tecnología & Celulares"
@@ -84,8 +89,6 @@ export default function CatalogPage() {
             products={products.vapes}
           />
           <ComboSection />
-          <ResaleSection />
-          <OrderGuide />
         </div>
       </main>
       <Footer />
