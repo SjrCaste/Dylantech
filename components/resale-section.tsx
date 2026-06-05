@@ -57,37 +57,45 @@ function ResaleCard({ product }: { product: ResaleProduct }) {
     return `${price} USD`
   }
 
-  const quantityOptions: { label: string; value: string }[] = [];
+  const quantityOptions: { label: string; value: string; price: number | null }[] = [];
   
   if (product.priceTiers) {
     const baseTier = product.priceTiers.find(t => t.quantity === product.minQuantity);
-    const basePriceStr = baseTier ? formatPrice(baseTier.price, baseTier.currency) : formatPrice(product.basePrice, product.currency);
+    const basePrice = baseTier ? baseTier.price : product.basePrice;
+    const basePriceStr = formatPrice(basePrice, product.currency);
     
     quantityOptions.push({
       label: product.minQuantity === 1 ? `x1 Unidad - ${basePriceStr}` : `x${product.minQuantity} Unidades - ${basePriceStr} c/u`,
-      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`
+      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`,
+      price: basePrice
     });
 
     const otherTiers = product.priceTiers.filter(t => t.quantity !== product.minQuantity);
     otherTiers.forEach(t => {
       quantityOptions.push({
         label: `x${t.quantity} Unidades - ${formatPrice(t.price, t.currency)} c/u`,
-        value: `x${t.quantity} Unidades`
+        value: `x${t.quantity} Unidades`,
+        price: t.price
       });
     });
   } else {
     quantityOptions.push({
       label: product.minQuantity === 1 ? `x1 Unidad - ${formatPrice(product.basePrice, product.currency)}` : `x${product.minQuantity} Unidades - ${formatPrice(product.basePrice, product.currency)} c/u`,
-      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`
+      value: product.minQuantity === 1 ? 'x1 Unidad' : `x${product.minQuantity} Unidades`,
+      price: product.basePrice
     });
   }
 
   quantityOptions.push({
     label: "Por más cantidad consultar aquí 💬",
-    value: "MAS_CANTIDAD"
+    value: "MAS_CANTIDAD",
+    price: null
   });
 
   const [selectedQuantity, setSelectedQuantity] = useState(quantityOptions[0].value)
+
+  const currentOption = quantityOptions.find(opt => opt.value === selectedQuantity);
+  const displayPrice = currentOption && currentOption.price !== null ? currentOption.price : product.basePrice;
 
   const generarMensajeWhatsApp = (valorSeleccionado: string) => {
     let texto = "";
@@ -158,7 +166,7 @@ function ResaleCard({ product }: { product: ResaleProduct }) {
         <div className="flex items-end justify-between mt-auto">
           <div>
             <span className="text-2xl font-bold text-foreground">
-              {formatPrice(product.basePrice, product.currency)}
+              {formatPrice(displayPrice, product.currency)}
             </span>
             {product.priceTiers && product.priceTiers.length > 0 && (
               <p className="text-xs text-muted-foreground">

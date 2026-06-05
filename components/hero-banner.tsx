@@ -52,8 +52,11 @@ export function HeroBanner() {
 
         <div className="mt-6 flex flex-col items-center gap-2 text-center">
           <span className="text-sm text-muted-foreground">Contacto Dylan Etchechuri</span>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-foreground">@dylan_fernaa</span>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-sm mt-1">
+            <span className="text-foreground font-medium">@dylan_fernaa</span>
+            <a href="#order-guide" className="rounded-full bg-primary/10 px-3 py-1 text-primary text-xs font-bold border border-primary/20 hover:bg-primary/20 transition-all">
+              ¿Dudas? Preguntas Frecuentes 👇
+            </a>
           </div>
         </div>
       </div>
