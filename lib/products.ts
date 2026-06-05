@@ -188,20 +188,7 @@ export const products = {
         { quantity: 15, price: 14000, currency: "ARS" as const },
       ],
     },
-    {
-      id: "body-splash-vs-original",
-      name: "Body Splash VS",
-      subtitle: "ORIGINAL",
-      basePrice: 20000,
-      currency: "ARS" as const,
-      minQuantity: 1,
-      image: "/products/body-splash-vs-original.png",
-      priceTiers: [
-        { quantity: 1, price: 20000, currency: "ARS" as const },
-        { quantity: 5, price: 15000, currency: "ARS" as const },
-        { quantity: 15, price: 14000, currency: "ARS" as const },
-      ],
-    },
+
 
     {
       id: "cremas-karssell",

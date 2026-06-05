@@ -2,102 +2,144 @@
 
 export function OrderGuide() {
   return (
-    <section id="order-guide" className="scroll-mt-28 px-4 pt-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10 p-6 text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            ¿Cómo realizar tu pedido? ⚡
+    <section id="order-guide" className="scroll-mt-28 px-4 py-16 bg-background border-t border-border/50">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl mb-2 uppercase">
+            ¿Cómo hacer un pedido?
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Respuesta rápida y asesoramiento personalizado para revendedores y mayoristas
+          <p className="text-sm font-bold text-primary tracking-widest uppercase flex justify-center items-center gap-2">
+            Con respuesta rápida ⚡
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Card 1: Cómo pedir */}
-          <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm flex flex-col justify-between">
+        <div className="grid gap-6 md:grid-cols-2 mb-8">
+          {/* Paso 1 */}
+          <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-primary mb-3 uppercase">Paso 1:</h3>
+            <p className="text-xs sm:text-sm text-foreground mb-4 font-semibold uppercase leading-relaxed">
+              Mandanos tu pedido al privado<br/>
+              <span className="text-muted-foreground">(Producto y cantidad de cada producto)</span>
+            </p>
+            <div className="rounded-lg bg-secondary/30 p-4 border border-border/50">
+              <span className="text-[10px] font-bold text-foreground block mb-2 uppercase tracking-wider">Ejemplo:</span>
+              <p className="text-xs text-muted-foreground italic leading-relaxed uppercase">
+                "Hola Dylan, me interesan 5 AirPods y 5 Camisetas Arg, ¿cuánto quedaría el precio final? Soy de Buenos Aires / Capital, ¿puedo pasar a retirar o envío?"
+              </p>
+            </div>
+          </div>
+
+          {/* Paso 2 */}
+          <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm flex flex-col justify-center text-center md:text-left">
+            <h3 className="text-lg font-bold text-primary mb-3 uppercase">Paso 2:</h3>
+            <p className="text-xs sm:text-sm text-foreground font-semibold uppercase leading-relaxed">
+              Te cotizamos el total, coordinamos la entrega y forma de pago.
+            </p>
+          </div>
+        </div>
+
+        {/* Datos Importantes */}
+        <div className="mb-12 rounded-xl border border-primary/20 bg-gradient-to-br from-card to-primary/5 p-6 md:p-8">
+          <div className="flex items-center justify-center md:justify-start gap-2 mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-primary uppercase tracking-wide">Datos Importantes</h3>
+            <span className="text-xl md:text-2xl">👇</span>
+          </div>
+          
+          <div className="space-y-8">
             <div>
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-3">
-                Pasos para comprar
-              </h3>
-              <ul className="space-y-4 text-sm text-muted-foreground">
-                <li>
-                  <span className="font-semibold text-foreground block mb-1">Paso 1: Pedido</span>
-                  Envíanos al privado el producto y la cantidad que necesitás.
-                </li>
-                <li>
-                  <span className="font-semibold text-foreground block mb-1">Paso 2: Cotización</span>
-                  Te cotizamos el total, coordinamos la entrega y definimos la forma de pago.
-                </li>
-              </ul>
+              <h4 className="font-bold text-foreground uppercase tracking-wide mb-2">Si es por retiro:</h4>
+              <p className="text-xs md:text-sm text-muted-foreground uppercase leading-relaxed">
+                Pagás en el momento de retiro en Efectivo / Transferencia / Dólares.
+              </p>
             </div>
             
-            <div className="mt-6 rounded-lg bg-secondary/30 p-3 border border-border/50">
-              <span className="text-xs font-semibold text-foreground block mb-1">Ejemplo de mensaje:</span>
-              <p className="text-xs text-muted-foreground italic leading-relaxed">
-                "Hola Dylan, me interesan 5 AirPods y 5 Camisetas Arg, ¿cuánto quedaría el precio final? Soy de CABA, ¿puedo retirar o hacen envíos?"
+            <div>
+              <h4 className="font-bold text-foreground uppercase tracking-wide mb-2">Si es por envío:</h4>
+              <p className="text-xs md:text-sm text-muted-foreground uppercase leading-relaxed">
+                Pagás al confirmar el pedido en Transferencia / USDT.<br/>
+                <span className="font-semibold text-foreground">Despachamos el mismo día que se realizó el pago.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Políticas de Precio y Envío (Image 1) */}
+        <div className="grid gap-6 md:grid-cols-2 mb-12">
+          <div className="rounded-xl border border-border/50 bg-card p-6 text-center flex flex-col justify-between">
+            <div>
+              <h4 className="text-sm font-bold text-foreground uppercase tracking-widest mb-4">Medios de Pago</h4>
+              <p className="text-xs text-muted-foreground font-medium uppercase leading-relaxed">
+                Efectivo / Transferencia / USD / USDT
+              </p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-border/50">
+              <p className="text-[10px] md:text-xs font-bold text-foreground uppercase tracking-wide flex items-center justify-center gap-1">
+                Cotización al "Dólar Blue Venta" al momento del pago en "ARS" 💵
               </p>
             </div>
           </div>
 
-          {/* Card 2: Formas de Pago */}
-          <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm flex flex-col justify-between">
+          <div className="rounded-xl border border-border/50 bg-card p-6 text-center flex flex-col justify-between">
             <div>
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-3">
-                Entrega & Pago
-              </h3>
-              <ul className="space-y-4 text-sm text-muted-foreground">
-                <li>
-                  <span className="font-semibold text-foreground block mb-1">Con Retiro</span>
-                  Pagás en el momento de retirar. Aceptamos **Efectivo**, **Transferencia** y **Dólares**.
-                </li>
-                <li>
-                  <span className="font-semibold text-foreground block mb-1">Con Envío</span>
-                  Pagás al confirmar tu pedido mediante **Transferencia** o **USDT**. Despachamos el mismo día que se acredita el pago.
-                </li>
-              </ul>
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-3">
+                <span className="font-bold text-foreground">Minorista:</span> Precio en pesos (ARS)
+              </p>
+              <p className="text-xs text-muted-foreground uppercase font-medium">
+                <span className="font-bold text-foreground">Mayorista:</span> Precio en USD
+              </p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-border/50">
+              <p className="text-[10px] md:text-xs font-bold text-primary uppercase tracking-wide">
+                A partir de 5 unidades se aplica precio mayorista
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Card 3: Preguntas Frecuentes */}
-          <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-3">
-                ¿Es seguro comprar con envío?
-              </h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Entendemos tus dudas, por eso garantizamos total transparencia:
-              </p>
-              <ol className="space-y-3 text-sm text-muted-foreground list-decimal pl-4">
-                <li>
-                  <span className="font-semibold text-foreground">Videollamada en vivo:</span> Realizamos una videollamada para mostrarte tu pedido preparado antes de enviarlo.
-                </li>
-                <li>
-                  <span className="font-semibold text-foreground">Referencias reales:</span> Te compartimos nuestro Instagram con gran cantidad de referencias y entregas exitosas.
-                </li>
-                <li>
-                  <span className="font-semibold text-foreground">Seguimiento constante:</span> Te enviamos el comprobante y código de seguimiento ni bien despachamos tu paquete.
-                </li>
-              </ol>
-            </div>
+        <div className="mb-12 rounded-xl border border-border/50 bg-card p-8 text-center">
+          <h4 className="text-sm font-bold text-foreground uppercase tracking-widest mb-6">Métodos de Envío / Entrega</h4>
+          <div className="space-y-6">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center justify-center gap-2">
+              Punto de encuentro según zona 📍
+            </p>
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex flex-col sm:flex-row items-center justify-center gap-2">
+              Vía Cargo / Andreani / Correo Argentino
+              <span className="font-bold text-foreground flex items-center gap-1">
+                (Todo el país) 🇦🇷
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* Preguntas Frecuentes */}
+        <div className="rounded-xl border border-primary/20 bg-card p-6 md:p-10 shadow-lg">
+          <div className="flex items-center justify-center gap-2 mb-8 border-b border-primary/20 pb-6">
+            <h3 className="text-xl md:text-2xl font-bold text-primary uppercase tracking-wide">Preguntas Frecuentes</h3>
+            <span className="text-xl md:text-2xl">👇</span>
+          </div>
+          
+          <div className="max-w-2xl mx-auto">
+            <h4 className="font-bold text-foreground text-center uppercase tracking-wide mb-8 text-sm md:text-base">
+              "¿Cómo puedo confiar si es por envío?"
+            </h4>
+            <ul className="space-y-6 text-xs md:text-sm text-muted-foreground uppercase font-medium">
+              <li className="flex gap-4 items-start">
+                <span className="font-extrabold text-primary text-base">1-</span>
+                <span className="pt-0.5 leading-relaxed">Hacemos videollamada en tiempo real con tu pedido.</span>
+              </li>
+              <li className="flex gap-4 items-start">
+                <span className="font-extrabold text-primary text-base">2-</span>
+                <span className="pt-0.5 leading-relaxed">Te paso mi Instagram, donde tengo muchas referencias de mi trabajo.</span>
+              </li>
+              <li className="flex gap-4 items-start">
+                <span className="font-extrabold text-primary text-base">3-</span>
+                <span className="pt-0.5 leading-relaxed">A la hora del despacho, te envío seguimiento de tu pedido.</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
   )
 }
+

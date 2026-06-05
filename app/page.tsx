@@ -10,6 +10,7 @@ import { ComboSection } from "@/components/combo-section"
 import { ResaleSection } from "@/components/resale-section"
 import { WholesaleSection } from "@/components/wholesale-section"
 import { Footer } from "@/components/footer"
+import { OrderGuide } from "@/components/order-guide"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { products } from "@/lib/products"
 
@@ -90,6 +91,7 @@ export default function CatalogPage() {
           />
           <ComboSection />
         </div>
+        <OrderGuide />
       </main>
       <Footer />
       <WhatsAppButton />
