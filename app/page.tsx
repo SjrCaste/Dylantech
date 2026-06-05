@@ -17,16 +17,16 @@ export default function CatalogPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
   const categories = [
-    { id: "resale", label: "iPhones", icon: "📱" },
-    { id: "wholesale", label: "Mayorista", icon: "📦" },
-    { id: "tech", label: "Tecnología", icon: "💻" },
-    { id: "accessories", label: "Accesorios", icon: "🔌" },
-    { id: "audio", label: "Audio", icon: "🎧" },
-    { id: "perfumery", label: "Perfumería", icon: "🌸" },
-    { id: "clothing", label: "Ropa", icon: "👕" },
-    { id: "home", label: "Hogar", icon: "🏠" },
-    { id: "vapes", label: "Vapes", icon: "💨" },
-    { id: "combos", label: "Combos", icon: "🔥" },
+    { id: "resale", label: "iPhones" },
+    { id: "wholesale", label: "Mayorista" },
+    { id: "tech", label: "Tecnología" },
+    { id: "accessories", label: "Accesorios" },
+    { id: "audio", label: "Audio" },
+    { id: "perfumery", label: "Perfumería" },
+    { id: "clothing", label: "Ropa" },
+    { id: "home", label: "Hogar" },
+    { id: "vapes", label: "Vapes" },
+    { id: "combos", label: "Combos" },
   ]
 
   const scrollToCategory = (categoryId: string) => {

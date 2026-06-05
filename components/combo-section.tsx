@@ -18,7 +18,7 @@ export function ComboSection() {
   return (
     <section id="combos" className="container-main">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">🔥 Combos Emprendedores</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-2">Combos Emprendedores</h2>
         <p className="text-sm text-muted-foreground">Productos de alta rotación con excelente margen de ganancia</p>
       </div>
 

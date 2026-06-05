@@ -10,7 +10,6 @@ export function ResaleSection() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 border-b border-border/50 pb-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-3xl">📱</span>
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               IPHONES DISPONIBLES
             </h2>

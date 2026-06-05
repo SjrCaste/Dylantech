@@ -3,7 +3,6 @@
 interface Category {
   id: string
   label: string
-  icon: string
 }
 
 interface CategoryNavProps {
@@ -27,7 +26,6 @@ export function CategoryNav({ categories, activeCategory, onCategoryClick }: Cat
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
             >
-              <span>{category.icon}</span>
               <span>{category.label}</span>
             </button>
           ))}
