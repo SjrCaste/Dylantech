@@ -87,11 +87,29 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
+    overscroll-behavior-y: contain;
   }
   html {
     @apply font-sans scroll-smooth;
+  }
+  button, a, select, input {
+    touch-action: manipulation;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
   }
 }

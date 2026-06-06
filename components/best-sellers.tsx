@@ -69,37 +69,38 @@ export function BestSellers() {
           </h2>
         </div>
 
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide scroll-smooth px-0.5" style={{ scrollSnapType: 'x mandatory' }}>
           {bestSellers.map((item) => (
             <Link
               key={item.id}
               href={`#${item.id}`}
-              className={`flex min-w-[140px] flex-col items-center gap-2 rounded-xl border border-border/50 bg-card p-4 transition-all duration-200 ${
-                hoveredId === item.id 
-                  ? "border-accent/50 bg-accent/5" 
+              style={{ scrollSnapAlign: 'start' }}
+              className={`flex min-w-[120px] flex-col items-center gap-2 rounded-xl border border-border/50 bg-card p-3 transition-all duration-200 active:scale-95 ${
+                hoveredId === item.id
+                  ? "border-accent/50 bg-accent/5"
                   : "hover:border-border"
               }`}
               onMouseEnter={() => setHoveredId(item.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              <div className="relative h-16 w-16 overflow-hidden rounded-lg bg-secondary/40">
+              <div className="relative h-14 w-14 overflow-hidden rounded-lg bg-secondary/40">
                 <Image
                   src={item.image}
                   alt={item.name}
                   fill
                   className="object-contain p-0.5"
-                  sizes="64px"
+                  sizes="56px"
                 />
               </div>
-              <span className="text-center text-xs font-medium text-foreground">
+              <span className="text-center text-[11px] font-semibold text-foreground leading-tight">
                 {item.name}
               </span>
               <div className="flex items-baseline gap-0.5">
-                <span className="text-xs text-muted-foreground">hasta</span>
-                <span className="ml-1 text-lg font-bold text-accent">
+                <span className="text-[10px] text-muted-foreground">hasta</span>
+                <span className="ml-0.5 text-base font-bold text-accent">
                   {item.price}
                 </span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-[10px] text-muted-foreground">
                   {item.currency}
                 </span>
               </div>
