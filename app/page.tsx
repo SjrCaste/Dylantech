@@ -1,96 +1,51 @@
-"use client"
+import { createPublicClient } from '@/lib/supabase/public'
+import { Header } from '@/components/header'
+import { HeroBanner } from '@/components/hero-banner'
+import { Footer } from '@/components/footer'
+import { WhatsAppButton } from '@/components/whatsapp-button'
+import { OrderGuide } from '@/components/order-guide'
+import { CatalogClient } from '@/components/catalog-client'
+import type { Product, Category, Combo } from '@/lib/types/admin'
 
-import { useState } from "react"
-import { Header } from "@/components/header"
-import { HeroBanner } from "@/components/hero-banner"
-import { BestSellers } from "@/components/best-sellers"
-import { CategoryNav } from "@/components/category-nav"
-import { ProductSection } from "@/components/product-section"
-import { ComboSection } from "@/components/combo-section"
-import { ResaleSection } from "@/components/resale-section"
-import { WholesaleSection } from "@/components/wholesale-section"
-import { Footer } from "@/components/footer"
-import { OrderGuide } from "@/components/order-guide"
-import { WhatsAppButton } from "@/components/whatsapp-button"
-import { products } from "@/lib/products"
+export const revalidate = 60
 
-export default function CatalogPage() {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+async function fetchCatalogData() {
+  const supabase = createPublicClient()
 
-  const categories = [
-    { id: "resale", label: "iPhones" },
-    { id: "wholesale", label: "Mayorista" },
-    { id: "tech", label: "Tecnología" },
-    { id: "accessories", label: "Accesorios" },
-    { id: "audio", label: "Audio" },
-    { id: "perfumery", label: "Perfumería" },
-    { id: "clothing", label: "Ropa" },
-    { id: "home", label: "Hogar" },
-    { id: "vapes", label: "Vapes" },
-    { id: "combos", label: "Combos" },
-  ]
+  const [{ data: products }, { data: categories }, { data: combos }] = await Promise.all([
+    supabase
+      .from('products')
+      .select('*, category:categories(id, name, slug, display_order)')
+      .eq('status', 'available')
+      .order('display_order'),
+    supabase
+      .from('categories')
+      .select('*')
+      .eq('is_visible', true)
+      .order('display_order'),
+    supabase
+      .from('combos')
+      .select('*, combo_products(quantity, product:products(id, name, price))')
+      .eq('is_active', true)
+      .order('display_order'),
+  ])
 
-  const scrollToCategory = (categoryId: string) => {
-    setActiveCategory(categoryId)
-    const element = document.getElementById(categoryId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
+  return {
+    products: (products ?? []) as Product[],
+    categories: (categories ?? []) as Category[],
+    combos: (combos ?? []) as Combo[],
   }
+}
+
+export default async function CatalogPage() {
+  const { products, categories, combos } = await fetchCatalogData()
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
         <HeroBanner />
-        <BestSellers />
-        <CategoryNav 
-          categories={categories} 
-          activeCategory={activeCategory}
-          onCategoryClick={scrollToCategory}
-        />
-        
-        <div className="space-y-8 pb-32">
-          <ResaleSection />
-          <WholesaleSection />
-          
-          <ProductSection 
-            id="tech"
-            title="Tecnología & Celulares"
-            products={products.tech}
-          />
-          <ProductSection 
-            id="accessories"
-            title="Accesorios & Carga"
-            products={products.accessories}
-          />
-          <ProductSection 
-            id="audio"
-            title="Audio"
-            products={products.audio}
-          />
-          <ProductSection 
-            id="perfumery"
-            title="Perfumería & Cuidado"
-            products={products.perfumery}
-          />
-          <ProductSection 
-            id="clothing"
-            title="Indumentaria"
-            products={products.clothing}
-          />
-          <ProductSection 
-            id="home"
-            title="Hogar & Varios"
-            products={products.home}
-          />
-          <ProductSection 
-            id="vapes"
-            title="Vapeadores"
-            products={products.vapes}
-          />
-          <ComboSection />
-        </div>
+        <CatalogClient products={products} categories={categories} combos={combos} />
         <OrderGuide />
       </main>
       <Footer />

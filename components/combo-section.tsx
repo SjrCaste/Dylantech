@@ -1,19 +1,14 @@
-"use client"
+'use client'
 
-import Image from "next/image"
-import { products } from "@/lib/products"
+import Image from 'next/image'
+import type { Combo } from '@/lib/types/admin'
 
-export function ComboSection() {
-  const formatPrice = (price: number, currency: string) => {
-    if (currency === "ARS") {
-      return new Intl.NumberFormat("es-AR", {
-        style: "currency",
-        currency: "ARS",
-        minimumFractionDigits: 0,
-      }).format(price)
-    }
-    return `$${price.toFixed(2)} USD`
-  }
+interface ComboSectionProps {
+  combos: Combo[]
+}
+
+export function ComboSection({ combos }: ComboSectionProps) {
+  const formatPrice = (price: number) => `$${price.toLocaleString('es-AR')}`
 
   return (
     <section id="combos" className="container-main">
@@ -23,7 +18,7 @@ export function ComboSection() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        {products.combos.map((combo) => (
+        {combos.map((combo) => (
           <div
             key={combo.id}
             className="group overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/5 to-primary/10 transition-all duration-200 hover:border-primary/50 hover:shadow-lg"
@@ -34,7 +29,7 @@ export function ComboSection() {
                   src={combo.image}
                   alt={combo.name}
                   fill
-                  className="object-contain transition-transform duration-300 group-hover:scale-102"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   priority
                 />
@@ -44,32 +39,39 @@ export function ComboSection() {
               <div className="mb-4 flex items-start justify-between">
                 <div className="flex-1">
                   <h3 className="text-sm sm:text-lg font-bold text-foreground mb-1">{combo.name}</h3>
-                  {combo.subtitle && (
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">{combo.subtitle}</p>
+                  {combo.description && (
+                    <p className="text-[10px] sm:text-xs text-muted-foreground">{combo.description}</p>
                   )}
                 </div>
-                {combo.badge && (
+                {combo.savings_display && (
                   <span className="ml-2 inline-block whitespace-nowrap rounded-lg bg-accent/20 px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-semibold text-accent border border-accent/20">
-                    {combo.badge}
+                    {combo.savings_display}
                   </span>
                 )}
               </div>
 
-              <div className="mb-4 space-y-2 border-t border-primary/10 pt-4">
-                {combo.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-xs sm:text-sm">
-                    <span className="text-muted-foreground">
-                      {item.quantity}x {item.product}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              {combo.combo_products && combo.combo_products.length > 0 && (
+                <div className="mb-4 space-y-2 border-t border-primary/10 pt-4">
+                  {combo.combo_products.map((cp, idx) => (
+                    <div key={idx} className="flex items-center justify-between text-xs sm:text-sm">
+                      <span className="text-muted-foreground">
+                        {cp.quantity}x {cp.product?.name ?? ''}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mb-4 rounded-lg bg-primary/10 p-3">
                 <div className="text-xs text-muted-foreground mb-1">PRECIO TOTAL</div>
                 <div className="text-2xl font-bold text-primary">
-                  {formatPrice(combo.price, combo.currency)}
+                  {formatPrice(combo.combo_price)}
                 </div>
+                {combo.individual_price > combo.combo_price && (
+                  <div className="text-xs text-muted-foreground line-through mt-0.5">
+                    {formatPrice(combo.individual_price)} por separado
+                  </div>
+                )}
               </div>
 
               <p className="text-xs text-muted-foreground mb-4">
@@ -78,9 +80,9 @@ export function ComboSection() {
 
               <div className="mt-auto">
                 <a
-                  href={`https://wa.me/5491122813943?text=Hola%20Dylan%21%20Me%20interesa%20el%20*${encodeURIComponent(
-                    combo.name
-                  )}*%20por%20${formatPrice(combo.price, combo.currency)}.`}
+                  href={`https://wa.me/5491122813943?text=${encodeURIComponent(
+                    `Hola Dylan! Me interesa el *${combo.name}* por ${formatPrice(combo.combo_price)}.`
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-3 text-sm font-bold text-white transition-all hover:bg-[#20bd5a] active:bg-[#1aad50] hover:shadow-md min-h-[44px]"
