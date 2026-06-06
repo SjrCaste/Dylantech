@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
+
+const BUCKET = 'catalog-images'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerClient()
+    const supabase = await createAdminClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -15,12 +17,26 @@ export async function POST(request: NextRequest) {
 
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Tipo de archivo no permitido. Solo JPG, PNG, WEBP.' }, { status: 400 })
+      return NextResponse.json({ error: 'Solo se permiten JPG, PNG, WEBP.' }, { status: 400 })
     }
 
-    const maxSize = 5 * 1024 * 1024 // 5MB
-    if (file.size > maxSize) {
+    if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json({ error: 'El archivo es muy grande. Máximo 5MB.' }, { status: 400 })
+    }
+
+    // Auto-crear el bucket si no existe
+    const { data: buckets } = await supabase.storage.listBuckets()
+    const bucketExists = buckets?.some((b) => b.name === BUCKET)
+    if (!bucketExists) {
+      const { error: createErr } = await supabase.storage.createBucket(BUCKET, {
+        public: true,
+        allowedMimeTypes: ['image/*'],
+        fileSizeLimit: 5242880,
+      })
+      if (createErr) {
+        console.error('Error creating bucket:', createErr)
+        return NextResponse.json({ error: `No se pudo crear el bucket: ${createErr.message}` }, { status: 500 })
+      }
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
@@ -30,7 +46,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(arrayBuffer)
 
     const { data, error } = await supabase.storage
-      .from('catalog-images')
+      .from(BUCKET)
       .upload(fileName, buffer, {
         contentType: file.type,
         cacheControl: '3600',
@@ -38,17 +54,15 @@ export async function POST(request: NextRequest) {
       })
 
     if (error) {
-      console.error('Upload error:', error)
-      return NextResponse.json({ error: 'Error al subir la imagen' }, { status: 500 })
+      console.error('Storage upload error:', error)
+      return NextResponse.json({ error: `Error al subir: ${error.message}` }, { status: 500 })
     }
 
-    const { data: { publicUrl } } = supabase.storage
-      .from('catalog-images')
-      .getPublicUrl(data.path)
+    const { data: { publicUrl } } = supabase.storage.from(BUCKET).getPublicUrl(data.path)
 
     return NextResponse.json({ url: publicUrl, path: data.path })
-  } catch (error) {
-    console.error('Upload error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  } catch (err) {
+    console.error('Upload route error:', err)
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 })
   }
 }

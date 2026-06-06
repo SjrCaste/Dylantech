@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -53,6 +54,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       resource_name: data.name,
     })
 
+    revalidatePath('/')
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -80,6 +82,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
       resource_name: product?.name ?? id,
     })
 
+    revalidatePath('/')
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

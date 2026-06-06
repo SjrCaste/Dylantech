@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 
 export async function GET(request: NextRequest) {
@@ -62,6 +63,7 @@ export async function POST(request: NextRequest) {
       resource_name: data.name,
     })
 
+    revalidatePath('/')
     return NextResponse.json({ data })
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
