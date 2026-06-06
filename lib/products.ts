@@ -177,6 +177,22 @@ export const products = {
         { quantity: 50, price: 2900, currency: "ARS" as const },
       ],
     },
+    {
+      id: "battery-pack-magsafe",
+      name: "Battery Pack MagSafe",
+      subtitle: "CARGA INALÁMBRICA APPLE",
+      basePrice: 25000,
+      currency: "ARS" as const,
+      minQuantity: 1,
+      features: ["Acople magnético perfecto", "Carga inalámbrica rápida", "Diseño compacto y portátil"],
+      image: "/products/battery-pack-magsafe.jpg",
+      priceTiers: [
+        { quantity: 1, price: 25000, currency: "ARS" as const },
+        { quantity: 5, price: 11, currency: "USD" as const },
+        { quantity: 10, price: 10, currency: "USD" as const },
+        { quantity: 20, price: 9, currency: "USD" as const },
+      ],
+    },
   ],
   perfumery: [
     {
