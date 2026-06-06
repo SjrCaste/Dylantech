@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
-import { createClient } from '@supabase/supabase-js'
 
 const BUCKET = 'catalog-images'
 
 export async function POST(request: NextRequest) {
   try {
-    // 1. Verificar sesión con el cliente normal (cookies)
+    // 1. Verificar sesión via cookies
     const supabase = await createServerClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
@@ -29,60 +28,64 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'La imagen pesa más de 5MB.' }, { status: 400 })
     }
 
-    // 2. Cliente admin con service role key (bypasea RLS completamente)
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     if (!serviceKey) {
       return NextResponse.json({ error: 'Config: SUPABASE_SERVICE_ROLE_KEY no configurada en el servidor.' }, { status: 500 })
     }
 
-    const admin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      serviceKey,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    )
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const storageUrl = `${supabaseUrl}/storage/v1`
 
-    // 3. Auto-crear el bucket si no existe
-    const { data: buckets, error: listErr } = await admin.storage.listBuckets()
-    if (listErr) {
-      console.error('Error listando buckets:', listErr)
-      return NextResponse.json({ error: `Error de Storage: ${listErr.message}` }, { status: 500 })
+    // Llamadas directas a la REST API de Supabase Storage — evita el parsing JWT del SDK
+    const authHeaders: Record<string, string> = {
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
     }
 
-    if (!buckets?.some((b) => b.name === BUCKET)) {
-      const { error: createErr } = await admin.storage.createBucket(BUCKET, {
+    // 2. Crear bucket si no existe (ignorar error "already exists")
+    await fetch(`${storageUrl}/bucket`, {
+      method: 'POST',
+      headers: { ...authHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: BUCKET,
+        name: BUCKET,
         public: true,
-        allowedMimeTypes: ['image/*'],
-        fileSizeLimit: 5242880,
-      })
-      if (createErr && !createErr.message.includes('already exists')) {
-        console.error('Error creando bucket:', createErr)
-        return NextResponse.json({ error: `Error creando bucket: ${createErr.message}` }, { status: 500 })
-      }
-    }
+        allowed_mime_types: ['image/*'],
+        file_size_limit: 5242880,
+      }),
+    })
 
-    // 4. Subir el archivo
+    // 3. Subir archivo via REST
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
     const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
     const buffer = Buffer.from(await file.arrayBuffer())
 
-    const { data, error: uploadErr } = await admin.storage
-      .from(BUCKET)
-      .upload(fileName, buffer, {
-        contentType: file.type,
-        cacheControl: '3600',
-        upsert: false,
-      })
+    const uploadRes = await fetch(`${storageUrl}/object/${BUCKET}/${fileName}`, {
+      method: 'POST',
+      headers: {
+        ...authHeaders,
+        'Content-Type': file.type,
+        'Cache-Control': '3600',
+      },
+      body: buffer,
+    })
 
-    if (uploadErr) {
-      console.error('Error subiendo archivo:', uploadErr)
-      return NextResponse.json({ error: `Error al subir: ${uploadErr.message}` }, { status: 500 })
+    if (!uploadRes.ok) {
+      const errData = await uploadRes.json().catch(() => ({ message: uploadRes.statusText }))
+      console.error('Storage upload error:', errData)
+      return NextResponse.json(
+        { error: `Error al subir: ${errData.message ?? errData.error ?? uploadRes.statusText}` },
+        { status: 500 }
+      )
     }
 
-    const { data: { publicUrl } } = admin.storage.from(BUCKET).getPublicUrl(data.path)
-
-    return NextResponse.json({ url: publicUrl, path: data.path })
+    const publicUrl = `${supabaseUrl}/storage/v1/object/public/${BUCKET}/${fileName}`
+    return NextResponse.json({ url: publicUrl, path: fileName })
   } catch (err) {
     console.error('Error inesperado en upload:', err)
-    return NextResponse.json({ error: `Error interno: ${err instanceof Error ? err.message : 'desconocido'}` }, { status: 500 })
+    return NextResponse.json(
+      { error: `Error interno: ${err instanceof Error ? err.message : 'desconocido'}` },
+      { status: 500 }
+    )
   }
 }
