@@ -17,6 +17,7 @@ export interface Product {
   badge?: string
   hasWarranty?: string
   features?: string[]
+  isConsultOnly?: boolean
   image?: string
   images?: string[]
 }
@@ -226,6 +227,18 @@ export const products = {
         { quantity: 5, price: 11.5, currency: "USD" as const },
         { quantity: 10, price: 10.5, currency: "USD" as const },
       ],
+    },
+    {
+      id: "perfumes-arabes",
+      name: "Perfumes Árabes",
+      subtitle: "EXCLUSIVOS · VARIAS MARCAS",
+      basePrice: 0,
+      currency: "ARS" as const,
+      minQuantity: 1,
+      badge: "TENDENCIA",
+      isConsultOnly: true,
+      features: ["Aromas únicos y exóticos", "Fijación y proyección extremas", "Lattafa, Afnan, Armaf y más..."],
+      image: "/products/perfumes-arabes.jpg",
     },
   ],
   clothing: [
