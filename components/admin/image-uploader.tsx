@@ -121,10 +121,11 @@ export function ImageUploader({ images, onChange, maxImages = 8 }: ImageUploader
               order: images.length + uploaded.length,
             })
           } else {
-            toast.error(`Error subiendo ${file.name}`)
+            toast.error(data.error ?? `Error subiendo ${file.name}`)
           }
-        } catch {
-          toast.error(`Error subiendo ${file.name}`)
+        } catch (err) {
+          toast.error(`Error de red al subir ${file.name}`)
+          console.error(err)
         }
       }
 
