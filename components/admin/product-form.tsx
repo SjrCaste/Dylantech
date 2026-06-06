@@ -117,6 +117,8 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
         description,
         images,
         promotional_price: data.promotional_price || null,
+        category_id: data.category_id || null,
+        subcategory_id: data.subcategory_id || null,
       }
 
       const url = product ? `/api/admin/products/${product.id}` : '/api/admin/products'
