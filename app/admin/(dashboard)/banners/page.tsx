@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Plus, Image, Edit, Trash2, Loader2, Save, Eye, EyeOff } from 'lucide-react'
+import { Plus, Image, Edit, Trash2, Loader2, Save, Eye, EyeOff, Upload } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,7 +22,9 @@ export default function BannersPage() {
   const [editingBanner, setEditingBanner] = useState<Banner | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Banner | null>(null)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [bannerType, setBannerType] = useState<'hero' | 'secondary'>('hero')
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { register, handleSubmit, reset, watch, setValue } = useForm({
     defaultValues: { type: 'hero' as const, image: '', title: '', subtitle: '', button_text: '', button_url: '', is_active: true, display_order: 0 },
@@ -67,6 +69,30 @@ export default function BannersPage() {
     if (res.ok) { toast.success('Banner eliminado'); fetchBanners() }
     else toast.error('Error al eliminar')
     setDeleteTarget(null)
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'banners')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.url) {
+        setValue('image', data.url)
+        toast.success('Imagen subida correctamente')
+      } else {
+        toast.error(data.error ?? 'Error al subir la imagen')
+      }
+    } catch {
+      toast.error('Error al subir la imagen')
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
   }
 
   async function toggleActive(banner: Banner) {
@@ -189,9 +215,29 @@ export default function BannersPage() {
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">URL de la imagen</Label>
-              <Input {...register('image')} placeholder="https://..." />
-              {watch('image') && <img src={watch('image')} alt="" className="w-full h-24 object-cover rounded-lg mt-1" onError={(e) => (e.currentTarget.style.display = 'none')} />}
+              <Label className="text-xs">Imagen del banner</Label>
+              <div className="flex gap-2">
+                <Input {...register('image')} placeholder="https://... o subí desde tu equipo →" className="flex-1" />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 shrink-0"
+                >
+                  {uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                  {uploading ? 'Subiendo...' : 'Subir'}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+              </div>
+              {watch('image') && (
+                <img src={watch('image')} alt="" className="w-full h-28 object-cover rounded-lg mt-1" onError={(e) => (e.currentTarget.style.display = 'none')} />
+              )}
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs">Título</Label>
