@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
       {children}
       <Toaster richColors position="top-right" closeButton />
     </ThemeProvider>
