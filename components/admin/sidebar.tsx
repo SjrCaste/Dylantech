@@ -166,13 +166,14 @@ export function AdminSidebar({ collapsed, onToggle }: SidebarProps) {
                         display: 'flex', alignItems: 'center',
                         gap: collapsed ? 0 : '10px',
                         justifyContent: collapsed ? 'center' : 'flex-start',
-                        padding: collapsed ? '8px' : '7px 10px',
-                        borderRadius: '8px', textDecoration: 'none',
-                        fontSize: '13px', fontWeight: '500',
+                        padding: collapsed ? '10px' : '10px 12px',
+                        borderRadius: '10px', textDecoration: 'none',
+                        fontSize: '14px', fontWeight: '500',
                         transition: 'background 0.12s, color 0.12s',
                         background: active ? 'rgba(124,58,237,0.15)' : 'transparent',
                         color: active ? '#a78bfa' : '#71717a',
                         position: 'relative',
+                        minHeight: '44px',
                       }}
                       onMouseEnter={(e) => {
                         if (!active) {

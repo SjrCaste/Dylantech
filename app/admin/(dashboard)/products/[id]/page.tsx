@@ -21,7 +21,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   if (!product) notFound()
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-3 sm:p-6 max-w-7xl mx-auto">
       <ProductForm
         product={product}
         categories={categories ?? []}

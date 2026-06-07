@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { AdminSidebar } from './sidebar'
 import { AdminHeader } from './admin-header'
 
@@ -12,6 +13,12 @@ interface AdminLayoutClientProps {
 export function AdminLayoutClient({ children, userEmail }: AdminLayoutClientProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Auto-close mobile sidebar on route change
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#09090b' }}>

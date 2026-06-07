@@ -16,7 +16,7 @@ export default async function NewProductPage() {
   const { categories, subcategories } = await getFormData()
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-3 sm:p-6 max-w-7xl mx-auto">
       <ProductForm categories={categories} subcategories={subcategories} />
     </div>
   )

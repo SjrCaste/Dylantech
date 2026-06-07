@@ -175,36 +175,41 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
-            {product ? 'Editar producto' : 'Nuevo producto'}
-          </h1>
-          {product && (
-            <p className="text-sm text-zinc-400 mt-0.5">ID: {product.id}</p>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-            disabled={saving}
-          >
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            disabled={saving}
-            className="bg-violet-600 hover:bg-violet-700 text-white"
-          >
-            {saving ? (
-              <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Guardando...</>
-            ) : (
-              <><Save className="w-4 h-4 mr-2" />{product ? 'Actualizar' : 'Crear'} producto</>
+      {/* Header — sticky en móvil para poder guardar sin scrollear */}
+      <div className="sticky top-0 z-20 -mx-3 sm:mx-0 px-3 sm:px-0 py-3 sm:py-0 mb-4 sm:mb-6 bg-zinc-950 sm:bg-transparent sm:static sm:z-auto">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-xl font-bold text-zinc-100 truncate">
+              {product ? 'Editar producto' : 'Nuevo producto'}
+            </h1>
+            {product && (
+              <p className="text-[10px] text-zinc-500 truncate hidden sm:block">ID: {product.id}</p>
             )}
-          </Button>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => router.back()}
+              disabled={saving}
+              className="h-9"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={saving}
+              className="bg-violet-600 hover:bg-violet-700 text-white h-9"
+            >
+              {saving ? (
+                <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />Guardando...</>
+              ) : (
+                <><Save className="w-4 h-4 mr-1.5" />{product ? 'Guardar' : 'Crear'}</>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -212,12 +217,14 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
         {/* Main content */}
         <div className="lg:col-span-2 space-y-5">
           <Tabs defaultValue="basic">
-            <TabsList className="bg-zinc-100 dark:bg-zinc-800 h-8">
-              <TabsTrigger value="basic" className="text-xs h-7">Información</TabsTrigger>
-              <TabsTrigger value="content" className="text-xs h-7">Contenido</TabsTrigger>
-              <TabsTrigger value="images" className="text-xs h-7">Imágenes</TabsTrigger>
-              <TabsTrigger value="seo" className="text-xs h-7">SEO</TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto scrollbar-hide">
+              <TabsList className="bg-zinc-100 dark:bg-zinc-800 h-9 w-full sm:w-auto">
+                <TabsTrigger value="basic" className="text-xs sm:text-sm h-8 flex-1 sm:flex-none">Información</TabsTrigger>
+                <TabsTrigger value="content" className="text-xs sm:text-sm h-8 flex-1 sm:flex-none">Contenido</TabsTrigger>
+                <TabsTrigger value="images" className="text-xs sm:text-sm h-8 flex-1 sm:flex-none">Imágenes</TabsTrigger>
+                <TabsTrigger value="seo" className="text-xs sm:text-sm h-8 flex-1 sm:flex-none">SEO</TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="basic" className="space-y-4 mt-4">
               {formSection('Información básica', (
