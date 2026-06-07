@@ -13,12 +13,12 @@ interface ProductSectionProps {
 
 export function ProductSection({ id, title, products }: ProductSectionProps) {
   return (
-    <section id={id} className="scroll-mt-28 px-4 pt-6">
+    <section id={id} className="scroll-mt-28 px-3 sm:px-4 pt-6">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-4 text-xl font-bold uppercase tracking-wide text-foreground">
+        <h2 className="mb-4 text-lg sm:text-xl font-bold uppercase tracking-wide text-foreground">
           {title}
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -122,14 +122,15 @@ function ProductCard({ product }: { product: Product }) {
     : !selectedQty
     ? 'Pedir por WhatsApp'
     : selectedQty === 'mas'
-    ? 'Consultar precio por WA'
-    : `Pedir ×${selectedQty} por WhatsApp`
+    ? 'Consultar por WA'
+    : `Pedir ×${selectedQty} por WA`
 
   return (
     <div
       id={product.slug}
-      className="flex flex-col h-full group overflow-hidden rounded-xl border border-border/50 bg-card transition-all duration-200 hover:border-border scroll-mt-28"
+      className="flex flex-col h-full group overflow-hidden rounded-xl border border-border/50 bg-card shadow-sm transition-all duration-200 hover:border-border hover:shadow-md scroll-mt-28"
     >
+      {/* Image */}
       {currentImage ? (
         <div className="relative aspect-square w-full overflow-hidden bg-transparent">
           <Image
@@ -149,10 +150,10 @@ function ProductCard({ product }: { product: Product }) {
                     e.stopPropagation()
                     setActiveImageIndex(idx)
                   }}
-                  className={`h-2 rounded-full transition-all ${
+                  className={`h-1.5 rounded-full transition-all ${
                     idx === activeImageIndex
                       ? 'bg-primary w-4'
-                      : 'bg-muted-foreground/60 w-2 hover:bg-muted-foreground'
+                      : 'bg-muted-foreground/60 w-1.5 hover:bg-muted-foreground'
                   }`}
                   aria-label={`Imagen ${idx + 1}`}
                 />
@@ -162,35 +163,35 @@ function ProductCard({ product }: { product: Product }) {
         </div>
       ) : null}
 
-      <div className="p-2.5 sm:p-4 flex flex-col flex-grow">
-        <div className="flex-grow mb-3">
-          <div className="mb-2 flex items-start justify-between">
-            <div className="flex-1">
-              <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight">
-                {product.name}
-              </h3>
-              {product.short_description && (
-                <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                  {product.short_description}
-                </p>
-              )}
-            </div>
+      <div className="p-2 sm:p-4 flex flex-col flex-grow">
+        {/* Name + badge */}
+        <div className="flex-grow mb-2 sm:mb-3">
+          <div className="mb-1.5 flex items-start justify-between gap-1">
+            <h3 className="text-xs sm:text-sm font-semibold text-foreground leading-snug">
+              {product.name}
+            </h3>
             {badge && (
-              <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent border border-accent/20 whitespace-nowrap">
+              <span className="shrink-0 rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-bold text-accent border border-accent/20 leading-none mt-0.5">
                 {badge}
               </span>
             )}
           </div>
 
+          {product.short_description && (
+            <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-1 mb-1">
+              {product.short_description}
+            </p>
+          )}
+
           {product.features && product.features.length > 0 && (
-            <ul className="mb-2 space-y-1 border-t border-border/50 pt-2">
+            <ul className="space-y-0.5 border-t border-border/40 pt-1.5">
               {product.features.slice(0, 2).map((feature, idx) => (
                 <li
                   key={idx}
-                  className="flex items-start gap-1.5 text-xs text-muted-foreground leading-tight"
+                  className="flex items-start gap-1 text-[10px] sm:text-xs text-muted-foreground leading-tight"
                 >
                   <svg
-                    className="h-3 w-3 shrink-0 text-primary mt-0.5"
+                    className="h-2.5 w-2.5 shrink-0 text-primary mt-0.5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -205,45 +206,55 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="mt-auto space-y-2.5">
+        <div className="mt-auto space-y-2">
+          {/* Price display */}
           <div>
             <span
-              className={`text-lg sm:text-2xl font-bold ${
+              className={`font-bold leading-none ${
                 priceBlock.main === 'Consultar precio'
-                  ? 'text-muted-foreground text-base sm:text-lg'
-                  : 'text-foreground'
+                  ? 'text-sm sm:text-base text-muted-foreground'
+                  : 'text-base sm:text-2xl text-foreground'
               }`}
             >
               {priceBlock.main}
             </span>
             {priceBlock.sub && (
-              <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">
-                {priceBlock.sub}
+              <p className="text-[10px] text-muted-foreground mt-0.5">{priceBlock.sub}</p>
+            )}
+            {!selectedQty && product.promotional_price && product.promotional_price > 0 && (
+              <p className="text-[10px] text-muted-foreground line-through">
+                ${product.price.toLocaleString('es-AR')}
               </p>
             )}
-            {!selectedQty &&
-              product.promotional_price &&
-              product.promotional_price > 0 && (
-                <p className="text-xs text-muted-foreground line-through">
-                  ${product.price.toLocaleString('es-AR')}
-                </p>
-              )}
+
+            {/* Wholesale teaser — visible before the user opens the dropdown */}
+            {!isConsultOnly && hasTiers && !selectedQty && (
+              <div className="flex flex-wrap items-center gap-1 mt-1.5">
+                <span className="inline-flex items-center rounded-full bg-accent/10 border border-accent/20 px-1.5 py-0.5 text-[9px] font-bold text-accent leading-none">
+                  MAYORISTA
+                </span>
+                <span className="text-[10px] text-muted-foreground">
+                  desde {formatBulkPrice(tiers[0].price, tiers[0].currency)} c/u
+                </span>
+              </div>
+            )}
           </div>
 
+          {/* Quantity dropdown — styled container for mobile prominence */}
           {!isConsultOnly && hasTiers && (
-            <div>
-              <label className="block text-[9px] uppercase tracking-wider font-semibold text-muted-foreground mb-1">
-                Comprá en cantidad
+            <div className="rounded-lg bg-accent/5 border border-accent/15 p-2">
+              <label className="block text-[9px] uppercase tracking-widest font-bold text-accent/80 mb-1.5">
+                Precio por cantidad
               </label>
               <select
                 value={selectedQty}
                 onChange={(e) => setSelectedQty(e.target.value)}
-                className="w-full rounded-lg border border-border/60 bg-secondary/50 text-foreground text-xs sm:text-sm px-3 py-2 cursor-pointer focus:outline-none focus:border-accent/70 transition-colors appearance-none pr-8"
+                className="w-full rounded-lg border border-border/60 bg-card text-foreground text-xs px-2.5 py-3 min-h-[44px] cursor-pointer focus:outline-none focus:border-accent/70 transition-colors appearance-none pr-7"
                 style={{
                   backgroundImage: CHEVRON_SVG,
                   backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 8px center',
-                  backgroundSize: '14px',
+                  backgroundPosition: 'right 7px center',
+                  backgroundSize: '13px',
                 }}
               >
                 <option value="">Seleccioná cantidad...</option>
@@ -252,24 +263,23 @@ function ProductCard({ product }: { product: Product }) {
                     {tier.quantity}u — {formatBulkPrice(tier.price, tier.currency)} c/u
                   </option>
                 ))}
-                <option value="mas">Más de {maxTierQty}u → Consultar por WhatsApp</option>
+                <option value="mas">Más de {maxTierQty}u → Consultar</option>
               </select>
             </div>
           )}
 
-          <div className="pt-1 border-t border-border/50">
-            <a
-              href={`https://wa.me/${WA_NUMBER}?text=${waMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-3 text-sm font-bold text-white transition-all hover:bg-[#20bd5a] active:bg-[#1aad50] hover:shadow-md min-h-[44px]"
-            >
-              <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>
-              {waButtonText}
-            </a>
-          </div>
+          {/* WhatsApp button */}
+          <a
+            href={`https://wa.me/${WA_NUMBER}?text=${waMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-3 py-3.5 sm:py-3 text-xs sm:text-sm font-bold text-white transition-all hover:bg-[#20bd5a] active:scale-[0.97] active:bg-[#1aad50] shadow-sm hover:shadow-md min-h-[44px]"
+          >
+            <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+            </svg>
+            {waButtonText}
+          </a>
         </div>
       </div>
     </div>

@@ -26,8 +26,8 @@ export function BestSellers({ products }: BestSellersProps) {
         </div>
 
         <div
-          className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide scroll-smooth px-0.5"
-          style={{ scrollSnapType: 'x mandatory' }}
+          className="flex gap-2 sm:gap-2.5 overflow-x-auto pb-2 scrollbar-hide scroll-smooth px-0.5 overscroll-x-contain"
+          style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
         >
           {products.map((item) => {
             const primaryImage =
