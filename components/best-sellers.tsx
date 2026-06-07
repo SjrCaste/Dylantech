@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Product } from '@/lib/types/admin'
+import { getFirstBulkTier, formatBulkPrice } from '@/lib/price-tiers-map'
 
 interface BestSellersProps {
   products: Product[]
@@ -31,7 +32,10 @@ export function BestSellers({ products }: BestSellersProps) {
           {products.map((item) => {
             const primaryImage =
               item.images?.find((img) => img.is_primary) ?? item.images?.[0]
-            const formatPrice = (p: number) => `$${p.toLocaleString('es-AR')}`
+            const bulkTier = getFirstBulkTier(item.slug)
+            const retailPrice = item.promotional_price && item.promotional_price > 0
+              ? item.promotional_price
+              : item.price
 
             return (
               <Link
@@ -64,9 +68,21 @@ export function BestSellers({ products }: BestSellersProps) {
                 <span className="text-center text-[11px] font-semibold text-foreground leading-tight">
                   {item.name}
                 </span>
-                <span className="text-base font-bold text-accent">
-                  {formatPrice(item.promotional_price && item.promotional_price > 0 ? item.promotional_price : item.price)}
-                </span>
+
+                {bulkTier ? (
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-sm font-bold text-accent">
+                      {formatBulkPrice(bulkTier.price, bulkTier.currency)}
+                    </span>
+                    <span className="text-[9px] text-muted-foreground font-medium">
+                      c/u ×{bulkTier.quantity}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-sm font-bold text-accent">
+                    ${retailPrice.toLocaleString('es-AR')}
+                  </span>
+                )}
               </Link>
             )
           })}
