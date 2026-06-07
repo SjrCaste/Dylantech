@@ -28,8 +28,6 @@ export function ProductSection({ id, title, products }: ProductSectionProps) {
   )
 }
 
-type QtyOption = '5' | '10' | '20' | 'mas' | ''
-
 const WA_NUMBER = '5491122813943'
 
 const CHEVRON_SVG =
@@ -43,10 +41,12 @@ function ProductCard({ product }: { product: Product }) {
     return a.order - b.order
   })
   const [activeImageIndex, setActiveImageIndex] = useState(0)
-  const [selectedQty, setSelectedQty] = useState<QtyOption>('')
+  const [selectedQty, setSelectedQty] = useState('')
   const currentImage = sortedImages[activeImageIndex]
 
   const tiers = getBulkTiers(product.slug)
+  const hasTiers = tiers.length > 0
+  const maxTierQty = hasTiers ? tiers[tiers.length - 1].quantity : 0
   const isConsultOnly = !product.price || product.price <= 0
 
   const retailPrice =
@@ -54,7 +54,6 @@ function ProductCard({ product }: { product: Product }) {
       ? product.promotional_price
       : product.price
 
-  // Highest applicable tier for a given qty (e.g. qty=10 → uses tier qty≤10)
   const getApplicableTier = (qty: number): BulkTier | null => {
     const applicable = tiers.filter((t) => t.quantity <= qty)
     if (!applicable.length) return null
@@ -72,24 +71,15 @@ function ProductCard({ product }: { product: Product }) {
     ? 'DESTACADO'
     : null
 
-  // Label for each dropdown option
-  const optionLabel = (qty: number) => {
-    const tier = getApplicableTier(qty)
-    return tier
-      ? `×${qty} unidades — ${formatBulkPrice(tier.price, tier.currency)} c/u`
-      : `×${qty} unidades — Consultar precio`
-  }
-
-  // Price block shown on the card
   const priceBlock = (() => {
     if (isConsultOnly) {
       return { main: 'Consultar precio', sub: null }
     }
-    if (!selectedQty) {
+    if (!selectedQty || !hasTiers) {
       return { main: `$${retailPrice.toLocaleString('es-AR')}`, sub: 'Precio por unidad' }
     }
     if (selectedQty === 'mas') {
-      return { main: 'Consultar precio', sub: 'Más de 20 unidades' }
+      return { main: 'Consultar precio', sub: `Más de ${maxTierQty} unidades` }
     }
     if (currentTier) {
       const total = currentTier.price * numericQty!
@@ -101,31 +91,29 @@ function ProductCard({ product }: { product: Product }) {
     return { main: 'Consultar precio', sub: `×${selectedQty} unidades` }
   })()
 
-  // WhatsApp message
   const waMessage = (() => {
-    if (isConsultOnly) {
+    if (isConsultOnly || !hasTiers) {
       return encodeURIComponent(
-        `Hola, me interesa *${product.name}*. ¿Me podés dar más información?`
+        `Hola! Me interesa *${product.name}*. ¿Me podés dar más información?`
       )
     }
     if (!selectedQty) {
       return encodeURIComponent(
-        `Hola Dylan! Me interesa *${product.name}* a $${retailPrice.toLocaleString('es-AR')} ARS. ¿Me pasás más info?`
+        `Hola! Me interesa *${product.name}* a $${retailPrice.toLocaleString('es-AR')} ARS. ¿Me pasás más info?`
       )
     }
     if (selectedQty === 'mas') {
       return encodeURIComponent(
-        `Hola, me interesa comprar más de 20 unidades del producto *${product.name}*. ¿Me podrían dar un presupuesto?`
+        `Hola! Me interesa consultar por una cantidad mayor a la del catálogo para el producto ${product.name}. ¿Me podrían dar un presupuesto?`
       )
     }
     if (currentTier) {
-      const total = currentTier.price * numericQty!
       return encodeURIComponent(
-        `Hola Dylan! Quiero *×${selectedQty} ${product.name}* a ${formatBulkPrice(currentTier.price, currentTier.currency)} c/u. Total: ${formatBulkPrice(total, currentTier.currency)}. ¿Confirmás disponibilidad?`
+        `Hola! Me interesa comprar ${numericQty} unidades de ${product.name} a ${formatBulkPrice(currentTier.price, currentTier.currency)} cada una.`
       )
     }
     return encodeURIComponent(
-      `Hola, me interesa comprar *×${selectedQty} ${product.name}*. ¿Me podrían dar un presupuesto?`
+      `Hola! Me interesa consultar por ${numericQty} unidades de *${product.name}*. ¿Me podrían dar un presupuesto?`
     )
   })()
 
@@ -175,7 +163,6 @@ function ProductCard({ product }: { product: Product }) {
       ) : null}
 
       <div className="p-2.5 sm:p-4 flex flex-col flex-grow">
-        {/* Name + badge */}
         <div className="flex-grow mb-3">
           <div className="mb-2 flex items-start justify-between">
             <div className="flex-1">
@@ -219,7 +206,6 @@ function ProductCard({ product }: { product: Product }) {
         </div>
 
         <div className="mt-auto space-y-2.5">
-          {/* Price display */}
           <div>
             <span
               className={`text-lg sm:text-2xl font-bold ${
@@ -244,15 +230,14 @@ function ProductCard({ product }: { product: Product }) {
               )}
           </div>
 
-          {/* Quantity dropdown */}
-          {!isConsultOnly && (
+          {!isConsultOnly && hasTiers && (
             <div>
               <label className="block text-[9px] uppercase tracking-wider font-semibold text-muted-foreground mb-1">
                 Comprá en cantidad
               </label>
               <select
                 value={selectedQty}
-                onChange={(e) => setSelectedQty(e.target.value as QtyOption)}
+                onChange={(e) => setSelectedQty(e.target.value)}
                 className="w-full rounded-lg border border-border/60 bg-secondary/50 text-foreground text-xs sm:text-sm px-3 py-2 cursor-pointer focus:outline-none focus:border-accent/70 transition-colors appearance-none pr-8"
                 style={{
                   backgroundImage: CHEVRON_SVG,
@@ -262,15 +247,16 @@ function ProductCard({ product }: { product: Product }) {
                 }}
               >
                 <option value="">Seleccioná cantidad...</option>
-                <option value="5">{optionLabel(5)}</option>
-                <option value="10">{optionLabel(10)}</option>
-                <option value="20">{optionLabel(20)}</option>
-                <option value="mas">Más de 20 → Consultar por WhatsApp</option>
+                {tiers.map((tier) => (
+                  <option key={tier.quantity} value={String(tier.quantity)}>
+                    {tier.quantity}u — {formatBulkPrice(tier.price, tier.currency)} c/u
+                  </option>
+                ))}
+                <option value="mas">Más de {maxTierQty}u → Consultar por WhatsApp</option>
               </select>
             </div>
           )}
 
-          {/* WhatsApp button */}
           <div className="pt-1 border-t border-border/50">
             <a
               href={`https://wa.me/${WA_NUMBER}?text=${waMessage}`}
