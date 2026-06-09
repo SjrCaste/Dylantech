@@ -6,6 +6,7 @@ import { CategoryNav } from '@/components/category-nav'
 import { ProductSection } from '@/components/product-section'
 import { ComboSection } from '@/components/combo-section'
 import { WholesaleSection } from '@/components/wholesale-section'
+import { InfoBanner } from '@/components/info-banner'
 import type { Product, Category, Combo } from '@/lib/types/admin'
 
 interface CatalogClientProps {
@@ -57,7 +58,12 @@ export function CatalogClient({ products, categories, combos }: CatalogClientPro
           )
         })}
 
-        {combos.length > 0 && <ComboSection combos={combos} />}
+        {combos.length > 0 && (
+          <>
+            <InfoBanner />
+            <ComboSection combos={combos} />
+          </>
+        )}
       </div>
     </>
   )

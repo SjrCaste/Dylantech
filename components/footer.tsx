@@ -47,8 +47,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 text-center text-xs text-muted-foreground/60">
-          © <span className="text-accent">2026</span> @dylan_fernaa · Lista Mayorista
+        <div className="mt-8 border-t border-border/20 pt-6 text-center space-y-1">
+          <p className="text-xs font-semibold text-muted-foreground/50 tracking-wide uppercase">
+            © <span className="text-accent">2026</span> Dylan Etchechuri · Todos los derechos reservados
+          </p>
+          <p className="text-[10px] text-muted-foreground/35 tracking-widest uppercase">
+            Catálogo de Precios Preferenciales · @dylan_fernaa
+          </p>
         </div>
       </div>
     </footer>

@@ -6,11 +6,11 @@ export function WholesaleSection() {
       <div className="mx-auto max-w-7xl">
         <div className="overflow-hidden rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/10 via-background to-accent/5 shadow-lg">
           <div className="p-8 md:p-12 text-center">
-            <div className="inline-flex items-center justify-center rounded-full bg-accent/20 px-4 py-1.5 mb-6">
-              <span className="text-sm font-bold text-accent tracking-wider uppercase">Descuentos Mayoristas</span>
+            <div className="inline-flex items-center justify-center rounded-full bg-accent/20 px-5 py-2 mb-6">
+              <span className="text-base font-bold text-accent tracking-wider uppercase">Beneficio</span>
             </div>
-            
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl mb-4">
+
+            <h2 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl mb-4">
               PRECIOS ESPECIALES POR CANTIDAD
             </h2>
             

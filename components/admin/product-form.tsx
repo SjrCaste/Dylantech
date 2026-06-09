@@ -457,7 +457,7 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
                 { key: 'is_featured' as const, label: 'Producto destacado', color: 'text-amber-500' },
                 { key: 'is_new' as const, label: 'Nuevo ingreso', color: 'text-sky-500' },
                 { key: 'is_on_sale' as const, label: 'En oferta', color: 'text-orange-500' },
-                { key: 'is_best_seller' as const, label: 'Más vendido', color: 'text-emerald-500' },
+                { key: 'is_best_seller' as const, label: 'En Tendencia', color: 'text-emerald-500' },
                 { key: 'is_recommended' as const, label: 'Recomendado', color: 'text-violet-500' },
               ].map(({ key, label, color }) => (
                 <div key={key} className="flex items-center justify-between py-1">
