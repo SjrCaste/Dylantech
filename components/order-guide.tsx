@@ -38,13 +38,28 @@ export function OrderGuide() {
   return (
     <section id="order-guide" className="scroll-mt-28 px-4 py-12 md:py-20 bg-background border-t border-border/50">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl mb-3 uppercase">
             Guía de Compra
           </h2>
           <p className="text-xs md:text-sm font-bold text-primary tracking-widest uppercase flex justify-center items-center gap-2">
             Respuesta rápida y asesoramiento ⚡
           </p>
+        </div>
+
+        {/* Feature highlights from InfoBanner */}
+        <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {[
+            { icon: "✦", text: "Mínimo x5 Unidades", accent: true },
+            { icon: "📦", text: "Envíos a todo el País", accent: false },
+            { icon: "✓", text: "Stock Permanente", accent: true },
+            { icon: "⚡", text: "Entrega Inmediata", accent: false },
+          ].map((f, i) => (
+            <div key={i} className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-border/40 bg-card/40 px-3 py-3 text-center">
+              <span className={`text-lg ${f.accent ? 'text-accent' : 'text-primary'}`}>{f.icon}</span>
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-muted-foreground leading-tight">{f.text}</span>
+            </div>
+          ))}
         </div>
 
         <div className="space-y-1">
@@ -108,9 +123,13 @@ export function OrderGuide() {
             <div className="grid gap-4 sm:grid-cols-2 pt-2">
               <div className="rounded-lg bg-secondary/30 p-4 border border-border/50">
                 <h4 className="text-xs font-bold text-foreground uppercase tracking-widest mb-3">Medios de Pago</h4>
-                <p className="text-[11px] sm:text-xs text-muted-foreground font-semibold uppercase leading-relaxed">
-                  Efectivo / Transferencia / USD / USDT
-                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Efectivo", "Transferencia", "Mercado Pago", "USD / USDT"].map((method) => (
+                    <span key={method} className="inline-block rounded-lg bg-secondary/60 border border-border/50 px-2.5 py-1 text-[10px] sm:text-[11px] font-bold text-foreground uppercase tracking-wide">
+                      {method}
+                    </span>
+                  ))}
+                </div>
                 <div className="mt-4 pt-3 border-t border-border/50">
                   <p className="text-[10px] font-bold text-primary uppercase tracking-wide leading-relaxed">
                     Cotización al "Dólar Blue Venta" al momento del pago en "ARS" 💵
@@ -148,7 +167,7 @@ export function OrderGuide() {
                 </li>
                 <li className="flex gap-3 items-start">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary font-bold flex-shrink-0 mt-0.5">2</span>
-                  <span className="leading-relaxed">Te paso mi Instagram, donde tengo muchas referencias de mi trabajo.</span>
+                  <span className="leading-relaxed">Te paso mi Instagram (<a href="https://instagram.com/dylan_fernaa" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">@dylan_fernaa</a>), donde tengo muchas referencias de mi trabajo.</span>
                 </li>
                 <li className="flex gap-3 items-start">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary font-bold flex-shrink-0 mt-0.5">3</span>

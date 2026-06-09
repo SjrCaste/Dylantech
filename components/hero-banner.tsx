@@ -19,6 +19,19 @@ export function HeroBanner() {
           </span>
           <div className="h-px w-16 sm:w-24 bg-gradient-to-l from-transparent to-accent/40" />
         </div>
+
+        <div className="mt-6">
+          <a
+            href="#order-guide"
+            className="inline-flex items-center gap-2 rounded-full border border-border/30 bg-card/40 px-5 py-2 text-[11px] sm:text-xs font-semibold tracking-widest text-muted-foreground/70 uppercase transition-all hover:border-primary/40 hover:text-primary active:scale-95"
+          >
+            <span>❓</span>
+            Preguntas Frecuentes
+            <svg className="w-3 h-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
   )
