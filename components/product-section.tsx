@@ -132,12 +132,12 @@ function ProductCard({ product }: { product: Product }) {
     >
       {/* Image */}
       {currentImage ? (
-        <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+        <div className="relative aspect-square w-full overflow-hidden bg-white/[0.04]">
           <Image
             src={currentImage.url}
             alt={currentImage.alt || product.name}
             fill
-            className="object-contain p-1 transition-transform duration-300 group-hover:scale-105"
+            className="object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           {sortedImages.length > 1 && (
